@@ -1,0 +1,21 @@
+상속관계 매핑 시 사용하면 유용할 것들! 
+
+## TYPE
+
+조회 대상을 특정 서브 타입으로 한정 
+
+```sql
+select i fron Item i
+where type(i) in (Movie, Music)
+```
+
+## TREAT
+
+자바의 다운 캐스팅과 비슷!
+
+상속 구조에서 부모 타입을 특정 자식 타입으로 다운 캐스팅할 때 사용 
+
+```sql
+select i from Iteam i
+where treat(i as Movie).direcetor = 'Lee'
+```
