@@ -1,0 +1,45 @@
+## Named 쿼리란?
+
+말 그대로 쿼리에 이름을 붙여 사용하는 것이다! 
+
+- 정적 쿼리이다.
+- 애플리케이션 로딩 시점에 쿼리 날림
+- 재사용 가능
+
+⭐ 애플리케이션 로딩 시점에 쿼리를 검증하기 때문에 개발자가 사용하면 좋은 기능이다! ⭐
+
+→ WHY? 
+
+개발자라면 당연히 😌 한 번쯤은 애플리케이션 실행하겠지..
+
+실행하자마자 에러 발생하면 잡기 쉽다! 
+
+하지만, 뭐 버튼을 클릭해야 에러가 발생한다면? 간과할 수 있다. 
+
+## 사용 방법
+
+1. 어노테이션 추가
+
+    @NamedQuery(name="쿼리명", query="날릴 쿼리")
+
+    💡 쿼리명은 대부분 엔티티명.쿼리명으로 짓는다.  
+
+    요 어노테이션을 사용하는 엔티티의 @Entity 다음 자리에 넣는다. 
+
+    ```jsx
+    @Entity
+    @NamedQuery(name="Member.findByAge",
+    						query="select m from Member m 
+    						where m.age=:age")
+    public class Member {
+    ...}
+    ```
+
+1. XML에 정의
+
+    META-INF/persistence.xml에 선언하고 META-INF/ormMember.xml을 생성하고 named 쿼리를 생성한다. 
+
+## 특징
+
+- XML이 항상 우선권을 가짐
+- 애플리케이션 운영 환경에 따라 다른 XML 배포 가능
