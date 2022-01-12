@@ -39,8 +39,8 @@ javax.persistence.NonUniqueResultException
 - 이름 기준
 
 ```jsx
-selet m from Member m where m.username=**:username**
-query.setParameter("**username**", "xxx");
+selet m from Member m where m.username=:파라미터명
+query.setParameter("파라미터명", "xxx");
 ```
 
 - 위치 기준 → 잘 사용 안함
