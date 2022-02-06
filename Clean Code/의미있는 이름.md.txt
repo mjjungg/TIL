@@ -1,1 +1,52 @@
-의도를 분명히 밝혀라
+# 의미있는 이름
+
+## 의도를 분명히 밝혀라
+
+```java
+public List<int[]> getThem() {
+	List <int[]> list1 = new ArrayList<int[]>();
+	
+	for (int[] x; x<theList.size(); x++) {
+		if (x[0] == 4) 
+			list1.add(x);
+	return list1;
+}
+```
+
+1. theList에 무엇이 들어있는가?
+2. theList에서 0번째 값이 어째서 중요한가?
+3. 값 4는 무슨 의미인가?
+4. 함수가 반환하는 리스트 list1을 어떻게 사용하는가?
+
+## 그릇된 정보를 피하라
+
+- List 컨테이너를 쓰지 않은 그룹의 변수명을 XXXList라고 붙이지 않는다.
+- 우사한 개념은 유사한 표기법을, 그렇지 않은 경우에는 흡사한 이름을 사용하지 않는다.
+
+→ ex) 알파벳 O와 숫자 0을 같이 사용한다던지...
+
+## 의미있게 구분하라
+
+단순히 연속된 숫자를 붙이거나 쓸데없는 문자를 추가하는 방식X
+
+ex) a, a1, a2...,  Product 클래스, ProductInfo, ProductData 클래스 
+
+Product클래스와 ProductInfo, ProductData 클래스차이가 뭔가? Info나 Data는 의미가 불분명하다.
+
+**함수 인수 이름으로 source와 destination을 사용하자**
+
+## 클래스 이름
+
+명사, 명사구가 적합, 동사 사용 X 
+
+## 메서드 이름
+
+동사, 동사구가 적합
+
+## 한 개념인 경우 단어를 통일해라
+
+예를 들어, 무언갈 받는 메서드일 경우 모든 클래스의 받는 메서드를 getXXX으로 통일해라.
+
+어떤 클래스에서는 recieveXXX로 하지 말 것 ⇒ 같은 개념인 경우 단어를 통일할 것! 
+
+일관성 있는 단어를 사용해라
