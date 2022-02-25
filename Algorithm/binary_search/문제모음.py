@@ -168,3 +168,84 @@ if __name__ == "__main__":
     print(res_lt, res_rt)
 
 
+    
+'''
+    12738 가장 긴 증가하는 부분 수열3 
+    
+    ### 정답 ###
+    아예 공식처럼 외우자!!
+    최장 수열에서의 이분 탐색은 리스트를 하나 두고, 입력값의 첫번째 값이 0번째 값.
+    for문을 돌면서 숫자를 리스트에 계속 추가해준다. (dp + binary search)
+    리스트의 길이가 결국 정답! 
+'''
+
+
+def search(lst, target):
+    start, end = 0, len(lst)-1
+
+    while start <= end:
+        mid = (start + end) // 2
+
+        if lst[mid] < target:
+            start = mid + 1
+        else:
+            end = mid - 1
+    return start
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    num_lst = list(map(int, input().split()))
+
+    results = [num_lst[0]]
+    for i in range(1, len(num_lst)):
+        if results[-1] < num_lst[i]:
+            results.append(num_lst[i])
+        else:
+            k = search(results, num_lst[i])
+            results[k] = num_lst[i]
+
+    print(len(results))
+    
+    
+    
+'''
+    2352 반도체 설계
+    처음 아이디어 : 왼쪽 숫자와 오른쪽 숫자가 전 숫자보다 크면 +1 => 어떻게 이 문제가 이분탐색???
+    
+    ### 정답 ###
+    이미 왼쪽 포트 번호는 정해져 있다 (1 ~ n 까지의 오름차순)
+    그렇다면 오른쪽 포트번호만 신경쓰면 된다. => 오른쪽 포트번호가 전 오른쪽 포트번호보다 크면 된다
+    즉, 최장 수열과 동일한 문제!
+    최장 수열에서의 이분 탐색은 리스트를 하나 두고, 입력값의 첫번째 값이 0번째 값.
+    for문을 돌면서 숫자를 리스트에 계속 추가해준다. (dp + binary search)
+    리스트의 길이가 결국 정답! 
+'''
+
+
+def search(lst, target):
+    start, end = 0, len(lst)-1
+
+    while start <= end:
+        mid = (start + end) // 2
+
+        if lst[mid] < target:
+            start = mid + 1
+        else:
+            end = mid - 1
+    return start
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    port_lst = list(map(int, input().split()))
+
+    results = [port_lst[0]]
+    for i in range(1, len(port_lst)):
+        if results[-1] < port_lst[i]:
+            results.append(port_lst[i])
+        else:
+            k = search(results, port_lst[i])
+            results[k] = port_lst[i]
+
+    print(len(results))
