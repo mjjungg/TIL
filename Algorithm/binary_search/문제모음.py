@@ -249,3 +249,40 @@ if __name__ == "__main__":
             results[k] = port_lst[i]
 
     print(len(results))
+    
+    
+
+    '''
+    1365 꼬인 전깃줄 
+    
+    주어진 수열의 길이 - 최장 수열의 길이 = 잘라야 하는 전선의 개수 
+    == 증가 수열과 똑같은 문제이다 
+'''
+
+def search(lst, target):
+    s, e = 0, len(lst)-1
+
+    while s <= e:
+        mid = (s + e) // 2
+
+        if lst[mid] < target:
+            s = mid + 1
+        else:
+            e = mid - 1
+    return s
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    lst = list(map(int, input().split()))
+    results = [lst[0]]
+
+    for i in range(1, n):
+        if results[-1] < lst[i]:
+            results.append(lst[i])
+        else:
+            k = search(results, lst[i])
+            results[k] = lst[i]
+
+    print(n - len(results))
