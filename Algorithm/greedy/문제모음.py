@@ -53,3 +53,39 @@ if __name__ == "__main__":
             break
 
     print(cnt)
+
+    
+    
+'''
+    10610 30 
+    
+    아이디어 : 받은 수를 스트링으로 쪼갠 후 나올 수 있는 모든 순서의 조합(순열) 구함
+    이것 중에서 30으로 나눠지는 가장 큰 수 구하려 함..
+    -> 알 수 없는 런타임에러 발생..
+    
+    ###########정답###########
+    30의 배수가 되는 조건 살펴보기
+    
+    !! 애초부터 스트링값으로 받아라 
+    0. 수를 내림차순으로 정렬 -> 최대값 
+    1. 0이 없다면 탈락
+    2. 각 자리 숫자 합이 3으로 나눠떨어지지 않으면 탈락
+    
+'''
+    
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = input()
+    n = sorted(n, reverse=True)
+
+    if '0' not in n:
+        print(-1)
+    else:
+        sum = 0
+        for i in n:
+            sum += int(i)
+
+        if sum % 3 != 0:
+            print(1)
+        else:
+            print(''.join(n))
