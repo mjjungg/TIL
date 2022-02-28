@@ -89,3 +89,42 @@ if __name__ == "__main__":
             print(1)
         else:
             print(''.join(n))
+            
+            
+            
+  '''
+    1339 단어 
+    처음 아이디어 : 문자열의 길이가 긴 문자부터 각 문자에 높은 수를 할당한다. 
+    => ABC, BCD 같은 경우 만족하지 못 함 
+    
+    ###정답###
+    ABC = 100 * A + 10 * B + C
+    BCD = 100 * B + 10 * C + D
+    
+    알파벳 같은 것 끼리 더해서 큰 순서대로 숫자 할당 
+'''
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    d = {}
+    num = 9
+    lst = []
+    for i in range(n):
+        s = input()
+        for i in range(len(s)):
+            if s[i] not in d:
+                d[s[i]] = 0
+        lst.append(s)
+
+    for s in lst:
+        for j in range(len(s)):
+            d[s[j]] += 10 ** (len(s) - j - 1)
+
+    answer = sorted(d.items(), key=lambda x: x[1], reverse=True)
+    result = 0
+    for i in answer:
+        result += i[1] * num
+        num -= 1
+
+    print(result)
+
