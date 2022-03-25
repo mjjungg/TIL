@@ -79,3 +79,92 @@ if __name__ == "__main__":
         board[c].append([p, w])
 
     print(bfs(bfs(1, 1), 0))
+    
+    
+    
+    
+import sys
+
+
+'''
+    2638 치즈 # bfs
+    내부 / 외부 공기 어떻게 구분??
+    
+    1. 모든 치즈가 다 녹았는지 확인. 남은 치즈가 있다면 전부 녹을 때 까지 아래 과정 반복
+    2. 외부 공기와 2개 변 이상 접촉한 치즈 체크
+    3. 체크된 치즈 녹임
+    
+    # 치즈 다 녹았는지 어떻게 확인?
+    이중 for문 돌면서 일일이 확인
+    
+    # 내부 / 외부 구문하는 로직
+    1. 현재 위치가 공기이고, 상하좌우 탐색에서 치즈가 걸리면 큐에 넣음
+       이때, 큐에 넣은 좌표를 다시 넣지 말아야 함
+    2. 큐에 들어간 좌표를 리스트에서 -1로 업데이트함 -> -1 : 외부 공기, 0 : 내부 공기 
+    -> 외부 공기만 큐에 넣기 때문에, 내부 공기와 분리 된다. 
+    
+'''
+
+# 바깥 공기를 -1로 초기화
+from collections import deque
+
+def initOutSide():
+    dq = deque()
+    visited_out = [[0 for _ in range(m)] for _ in range(n)]
+    dq.append((0, 0))   # 0, 0부터 탐색 시작
+    visited_out[0][0] = 1
+    board[0][0] = -1
+
+    while dq:
+        y, x = dq.popleft()
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if (0 <= ny < n) and (0 <= nx < m):
+                if board[ny][nx] != 1:
+                    if visited_out[ny][nx] == 0:
+                        board[ny][nx] = -1
+                        visited_out[ny][nx] = 1
+                        dq.append((ny, nx))
+
+
+def isAllMelt():
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 1:
+                return False
+    return True
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    answer = 0
+    n, m = map(int, input().split())
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, -1, 1]
+
+    board = []
+
+    for i in range(n):
+        l = list(map(int, input().split()))
+        board.append(l)
+
+    while not isAllMelt():
+        initOutSide()
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] == 1:
+                    cnt = 0  # 외부 공기와 맞닿은 변의 개수
+                    for k in range(4):
+                        ny = i + dy[k]
+                        nx = j + dx[k]
+
+                        if (0 <= ny < n) and (0 <= nx < m):
+                            if board[ny][nx] == -1:
+                                cnt += 1
+                    if 2 <= cnt:
+                        board[i][j] = 0
+
+        answer += 1
+
+    print(answer)
