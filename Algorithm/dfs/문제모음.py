@@ -260,4 +260,44 @@ if __name__ == "__main__":
 
 
 
+'''
+    14716 현수막 # bfs
 
+'''
+
+
+from collections import deque
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m = map(int, input().split())
+    board = []
+    visited = [[0 for _ in range(m)] for _ in range(n)]
+    res = 0
+    for _ in range(n):
+        l = list(map(int, input().split()))
+        board.append(l)
+    dy = [1, -1, 0, 0, -1, 1, 1, -1]
+    dx = [0, 0, 1, -1, -1, 1, -1, 1]
+
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 1 and visited[i][j] == 0:
+                res += 1
+                dq = deque()
+                dq.append([i, j])
+                visited[i][j] = 1
+                while dq:
+                    cur_y, cur_x = dq.popleft()
+
+                    for k in range(len(dy)):
+                        next_y = cur_y + dy[k]
+                        next_x = cur_x + dx[k]
+
+                        if (0 <= next_y < n) and (0 <= next_x < m):
+                            if board[next_y][next_x] == 1:
+                                if visited[next_y][next_x] == 0:
+                                    dq.append([next_y, next_x])
+                                    visited[next_y][next_x] = 1
+    print(res)
