@@ -214,4 +214,50 @@ if __name__ == "__main__":
                         dq.append([next_y, next_x])
 
 
+                        
+ import sys
+
+
+'''
+    1389 케빈 베이컨의 6단계 법칙 # bfs
+    ※ 자주 나오는 문제 유형이니 꼭 파악해두기!!!
+    노드 간 최소 방문 횟수  
+'''
+
+
+from collections import deque
+
+def bfs(s):
+    ans = [0 for _ in range(n+1)]
+    visited = [s]
+    dq = deque()
+    dq.append(s)
+
+    while dq:
+        now = dq.popleft()
+        for i in board[now]:
+            if i not in visited:
+                ans[i] += ans[now] + 1
+                visited.append(i)
+                dq.append(i)
+
+    return sum(ans)
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m = map(int, input().split())
+    board = [[] for _ in range(n+1)]
+    for _ in range(m):
+       a, b = map(int, input().split())
+       board[a].append(b)
+       board[b].append(a)
+
+    result = []   # res[0] : 1번 유저의 케빈 베이컨 수
+    for i in range(1, n+1):
+        result.append(bfs(i))
+
+    print(result.index(min(result)) + 1)
+
+
+
 
