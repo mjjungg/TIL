@@ -168,3 +168,50 @@ if __name__ == "__main__":
         answer += 1
 
     print(answer)
+    
+    
+    import sys
+
+
+'''
+    7562 나이트의 이동 # bfs
+    ※ while문 내부에서 pop()이 아닌 popleft() 사용해야 최소 이동 횟수 나옴!!!!!
+    
+'''
+
+# 바깥 공기를 -1로 초기화
+from collections import deque
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        answer = 0
+        cur_y, cur_x = map(int, input().split())
+        goal_y, goal_x = map(int, input().split())
+        dy = [-2, -2, -1, -1, 1, 1, 2, 2]
+        dx = [-1, 1, -2, 2, -2, 2, -1, 1]
+        board = [[0 for _ in range(n)] for _ in range(n)]
+        dq = deque()
+        dq.append([cur_y, cur_x])
+        board[cur_y][cur_x] = 1
+
+        while dq:
+            now_y, now_x = dq.popleft()
+            if (now_y == goal_y) and (now_x == goal_x):
+                print(board[now_y][now_x]-1)
+                break
+
+            for i in range(len(dy)):
+                next_y = now_y + dy[i]
+                next_x = now_x + dx[i]
+
+                if (0 <= next_y < n) and (0 <= next_x < n):
+                    if board[next_y][next_x] == 0:
+                        board[next_y][next_x] = board[now_y][now_x] + 1
+                        dq.append([next_y, next_x])
+
+
+
