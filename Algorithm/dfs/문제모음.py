@@ -301,3 +301,86 @@ if __name__ == "__main__":
                                     dq.append([next_y, next_x])
                                     visited[next_y][next_x] = 1
     print(res)
+
+    
+import sys
+
+
+'''
+    14502 연구소 # bfs
+    
+    바이러스 퍼짐 - bfs로 처리
+    벽은 어디다 세워야 함??? -> 최대한 바이러스 근처
+    
+    ## 풀이
+    벽을 세울 수 있는 모든 경우의 수에 대해서 수행해봐야 함 (백트래킹) 
+    -> 최댓값 저장해야 함 
+    
+    
+'''
+from collections import deque
+import copy
+
+# 바이러스 퍼지는 알고리즘 >> 시간초과 발생 
+def bfs():
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+
+    q = deque()
+    tmp_boarad = copy.deepcopy(board)   # 매번 바이러스 퍼지는 계산해줘야 하기 때문에 copy
+    for i in range(n):
+        for j in range(m):
+            if tmp_boarad[i][j] == 2:
+                q.append([i, j])
+
+    while q:
+        y, x = q.popleft()
+
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+
+            if (0 <= ny < n) and (0 <= nx < m):
+                if tmp_boarad[ny][nx] == 0:
+                    tmp_boarad[ny][nx] = 2
+                    q.append([ny, nx])
+    return countSafeZone(tmp_boarad)
+
+def countSafeZone(board):
+    cnt = 0
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 0:
+                cnt += 1
+    return cnt
+
+def makeWall(cnt):
+    global answer
+    if cnt == 3:
+        res = bfs()
+        if answer < res:
+            answer = res
+        return
+
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 0:
+                board[i][j] = 1    # 벽 세움
+                makeWall(cnt+1)
+                board[i][j] = 0     # 벽 X
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m = map(int, input().split())
+
+    board = []
+    answer = 0
+    for _ in range(n):
+        board.append(list(map(int, input().split())))
+
+    makeWall(0)
+
+    print(answer)
+
+
+
