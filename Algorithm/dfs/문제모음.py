@@ -383,4 +383,76 @@ if __name__ == "__main__":
     print(answer)
 
 
+    
+'''
+    7576 토마토    # bfs
+    
+    정답을 무조건 하나의 변수에만 저장하려하지 말자!
+    정답의 후보들을 리스트에 담아두고 리스트의 최소/최대값이 답이 될 수 있다.
+    
+    ## 첫 시도로 최소 일수를 cnt 변수에 넣으려 했다.
+    cnt를 도대체 어디에 해야 할지 막막 
+    
+    => visited라는 이중 리스트에 해당 위치에 있는 토마토가 익은 날짜를 저장해둠
+    이중 리스트에서 최대값이 바로 모든 토마토가 익는 최소 일수가 됨
+    
+'''
+
+
+def checkAllTomatos():
+    for i in range(n):
+        for j in range(m):
+            if tomatos[i][j] == 0:
+                return False
+    return True
+
+from collections import deque
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    m, n = map(int, input().split())
+    tomatos = []
+    visited = [[0 for _ in range(m)] for _ in range(n)]
+
+    for _ in range(n):
+        tomatos.append(list(map(int, input().split())))
+
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+    q = deque()
+    cnt = 0
+
+    if checkAllTomatos():
+        print(0)
+        sys.exit(0)
+
+    for i in range(n):
+        for j in range(m):
+            if tomatos[i][j] == 1:
+                q.append([i, j])
+
+    while q:
+        y, x = q.popleft()
+        cnt += 1
+
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+
+            if (0 <= ny < n) and (0 <= nx < m):
+                if tomatos[ny][nx] == 0:
+                    if visited[ny][nx] == 0:
+                        tomatos[ny][nx] = 1
+                        q.append([ny, nx])
+                        visited[ny][nx] = visited[y][x] + 1
+
+
+
+    if checkAllTomatos():
+        ans = 0
+        for i in visited:
+            ans = max(ans, max(i))
+        print(ans)
+    else:
+        print(-1)
 
