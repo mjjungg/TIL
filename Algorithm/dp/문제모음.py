@@ -120,3 +120,48 @@ if __name__ == "__main__":
 
     print(dp[n])
 
+
+    
+'''
+    2631 줄세우기
+    
+    생각의 전환!!
+    순서대로 배치하기 위해 옮겨지는 아이의 최소 수 = n - 최장 수열의 길이  
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    lst = []
+    dp = [1 for _ in range(n)]
+    dp[0] = 1
+    for _ in range(n):
+        lst.append(int(input()))
+
+    for i in range(n):
+        for j in range(i):
+            if lst[j] < lst[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+
+    print(dp)
+    print(n - max(dp))
+    
+
+'''
+    16194 카드 구매하기2
+    
+    dp[n] : 카드를 n개 샀을 때 최소 금액
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    cards = list(map(int, input().split()))
+    cards.insert(0, 0)
+    dp = [cards[i] for i in range(n+1)] # dp를 카드 n개가 들어있는 카드팩의 금액으로 초기화 시킴 
+
+    for i in range(1, n+1):
+        for j in range(1, i):
+            dp[i] = min(dp[i], dp[j] + dp[i-j]) # n개보다 작은 개수의 카드의 최소 금액을 이용해서 카드 n개의 최소 금액 구함
+
+    print(dp[n])
