@@ -165,3 +165,33 @@ if __name__ == "__main__":
             dp[i] = min(dp[i], dp[j] + dp[i-j]) # n개보다 작은 개수의 카드의 최소 금액을 이용해서 카드 n개의 최소 금액 구함
 
     print(dp[n])
+    
+
+
+'''
+    2225 합분해 
+    
+    n, k를 작은 단위로 나눠서 규칙 찾아본다
+    n = 1부터, k = 1부터 테이블을 만들어서 현재 위치에 오는 값을 계산할 수 있는 식(규칙)을 찾는다. 
+       
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, k = map(int, input().split())
+
+    board = [[0 for _ in range(n+1)] for _ in range(k+1)]
+
+    for i in range(1, n+1):
+        board[1][i] = 1
+
+    for i in range(2, k+1):
+        board[i][1] = i
+
+    for i in range(2, k+1):
+        for j in range(2, n+1):
+            board[i][j] = board[i-1][j] + board[i][j-1]
+
+    print(board[k][n] % 1000000000)
+
+
