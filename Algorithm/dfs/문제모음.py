@@ -456,3 +456,54 @@ if __name__ == "__main__":
     else:
         print(-1)
 
+        
+  '''
+    2665 미로만들기 
+    
+    검은 방을 흰 방으로 바꾸려는 생각 -> 흰 방부터 탐색하면서 검은 방일 때 +1씩 늘려주기 
+    bfs
+    이동거리 이중 리스트 -1로 초기화 
+    흰 방 : 이동거리 이전과 같음
+    검은 방 : 이동거리 이전 + 1
+   
+'''
+
+from collections import deque
+
+
+def bfs():
+    q = deque()
+    q.append([0, 0])
+
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+    visited[0][0] = 0
+
+    while q:
+        y, x = q.popleft()
+
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+
+            if (0 <= ny < n) and (0 <= nx < n) and visited[ny][nx] == -1:
+                    if board[ny][nx] == 1:  # 흰 방
+                        visited[ny][nx] = visited[y][x]
+                        q.appendleft([ny, nx])  # 먼저 deque에 넣음
+                    elif board[ny][nx] == 0:   # 검은방
+                        visited[ny][nx] = visited[y][x] + 1
+                        q.append([ny, nx])
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    board = []
+    visited = [[-1 for _ in range(n)] for _ in range(n)]
+
+    for _ in range(n):
+        l = list(map(int, input()))
+        board.append(l)
+
+    bfs()
+    print(visited[n-1][n-1])
