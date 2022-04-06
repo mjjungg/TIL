@@ -195,3 +195,31 @@ if __name__ == "__main__":
     print(board[k][n] % 1000000000)
 
 
+'''
+    4811 알약
+    
+    이중 테이블 만들어 각각의 경우의 수 생각 -> 규칙 찾아내기 
+    dp[i][j] 행 : h의 개수, 열 : w의 개수 
+    h는 앞에 w의 개수보다 같거나 적어야 한다. ex) hw, hhw (x) 
+   
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    while True:
+        n = int(input())
+        if n == 0:
+            break
+
+        dp = [[0 for _ in range(n+1)] for _ in range(n+1)]
+
+        for i in range(1, n+1):
+            dp[0][i] = 1
+
+        for i in range(1, n+1):
+            for j in range(i, n+1):
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+
+
+        print(dp[n][n])
+
