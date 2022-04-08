@@ -223,3 +223,40 @@ if __name__ == "__main__":
 
         print(dp[n][n])
 
+        
+'''
+    2302 극장 좌석
+    
+    n = 1, 2, 3 ... 작은 문제로 쪼개서 점화식을 찾아본다.
+    n = 1 => 경우의 수 : 1
+    n = 2 => 12, 21 : 2
+    n = 3 => 123, 132, 213 : 3
+    n = 4 => 1234, 1324, 2134, 1243, 12143 : 5
+    n = 4일 때를 보면, dp[3] + dp[2] 라는 것을 알 수 있다!!! 
+    
+    vip는 자리가 고정된다 -> 리셋된다고 보면 됨(처음부터 다시 시작)
+     -> 동시에 일어나므로 곱함
+    
+    동시에 일어나면 곱을 해주고, 동시에 일어나지 않으면 덧셈을 해준다.
+   
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    m = int(input())
+    res = 1
+    dp = [0 for _ in range(n+1)]
+    dp[0] = 1
+    dp[1] = 1
+    for i in range(2, n+1):
+        dp[i] = dp[i-1] + dp[i-2]
+
+    tmp = 0
+    for i in range(m):
+        vip = int(input())
+        res *= dp[vip-tmp-1]
+        tmp = vip
+
+    res *= dp[n-tmp]
+    print(res)
