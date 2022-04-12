@@ -128,3 +128,27 @@ if __name__ == "__main__":
 
     print(result)
 
+    
+    '''
+        1439 뒤집기
+        
+        min(0으로 뒤집는 횟수, 1으로 뒤집는 횟수)
+    '''
+    s = list(input())
+    cnt0 = 0
+    cnt1 = 0
+    pre = s[0]
+
+    for i in range(1, len(s)):
+        if (pre == '1') and (pre != s[i]):
+            cnt0 += 1
+        elif (pre == '0') and (pre != s[i]):
+            cnt1 += 1
+
+        pre = s[i]
+        
+    if pre == '0':
+        cnt1 += 1
+    else:
+        cnt0 += 1
+    print(min(cnt0, cnt1))
