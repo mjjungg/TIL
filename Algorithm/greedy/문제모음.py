@@ -129,6 +129,50 @@ if __name__ == "__main__":
     print(result)
 
     
+import sys
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    '''
+        모험가 길드  
+
+        공포도가 작은 모험가부터 그룹을 만든다. -> 최대한 많은 그룹을 만들 수 있음
+        키 포인트 : 현재 모헙가를 포함한 현재 그룹의 인원수와 현재 모험가의 공포도 비교한다. -> 그룹의 인원수 < 공포도 => 그룹에 포함시킴 
+                                                    그룹의 인원수 >= 공포도 => 그룹 결성
+    '''
+    n = int(input())
+    lst = list(map(int, input().split()))
+
+    lst.sort()
+    result = 0
+    cnt = 0
+
+    for i in lst:
+        cnt += 1    # 현재 그룹에 해당 모험가 포함 시킴
+        if i <= cnt:
+            cnt = 0     # 현재 그룹 인원수 초기화
+            result += 1     # 그룹 1 증가
+    print(result)
+
+    '''
+        곱하기 혹은 더하기
+
+        피 연산자가 0 혹은 1이면 더하기, 그 외는 곱하기
+    '''
+    n = input()
+    lst = [int(i) for i in n]
+
+    result = lst[0]a
+    for i in range(1, len(lst)):
+        if result <= 1 or lst[i] <= 1:
+            result += lst[i]
+        else:
+            result *= lst[i]
+
+    print(result)
+    
+    
     '''
         1439 뒤집기
         
