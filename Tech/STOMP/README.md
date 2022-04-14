@@ -14,7 +14,7 @@
 - 채팅방 내부에서 메시지 송수신 : 해당 Topic으로 메시지 송신(pub), 수신(sub)
 - Broker를 통해 타 사용자들에게 메시지 보내거나 서버가 특정 작업 수행하도록 메시지 보냄
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b42eb8c8-aa40-493e-9853-fd2cae29a257/Untitled.png)
+![이미지 2](https://user-images.githubusercontent.com/52596617/163399814-d7c63feb-ac1a-4f0a-8d8e-8fc1c293952e.png)
 
 ### Spring에서의 STOMP
 
