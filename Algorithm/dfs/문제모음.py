@@ -507,3 +507,117 @@ if __name__ == "__main__":
 
     bfs()
     print(visited[n-1][n-1])
+
+'''
+        18405 경쟁적 전염
+
+    '''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    n, k = map(int, input().split())
+    virus = []
+    dy = [0, 0, -1, 1]
+    dx = [1, -1, 0, 0]
+    data = []
+
+    for i in range(n):
+        virus.append(list(map(int, input().split())))
+
+    s, x, y = map(int, input().split())
+
+    for i in range(n):
+        for j in range(n):
+            if virus[i][j] != 0:
+                data.append([i, j, virus[i][j], 0])
+
+    data.sort(key=lambda x:x[2])
+    q = deque(data)
+
+    while q:
+        cur_y, cur_x, cur_v, cur_s = q.popleft()
+
+        if cur_s == s:
+            print(virus[x-1][y-1])
+            break
+
+        for i in range(4):
+            ny = cur_y + dy[i]
+            nx = cur_x + dx[i]
+            if (0 <= ny < n) and (0 <= nx < n):
+                if virus[ny][nx] == 0:
+                    virus[ny][nx] = cur_v
+                    q.append([ny, nx, cur_v, cur_s+1])
+                    
+                    
+'''
+        18428 감시 피하기 - 연구소 문제와 비슷한 문제 
+
+'''
+
+
+# 벽 세우는 메서드
+def make(cnt):
+    global res
+    if cnt == 3:
+        if search():
+            res = "YES"
+        return
+
+    for i in range(n):
+        for j in range(n):
+            if board[i][j] == 'X':
+                board[i][j] = 'O'
+                make(cnt+1)
+                board[i][j] = 'X'
+
+def search():
+    for i in range(n):
+        for j in range(n):
+            if board[i][j] == 'T':
+                if check(i, j) == False:
+                    return False
+    return True
+
+def check(i, j):
+    for k in range(i, n):
+        if board[k][j] == 'O':
+            break
+        elif board[k][j] == 'S':
+            return False
+
+    for k in range(i, -1, -1):
+        if board[k][j] == 'O':
+            break
+        elif board[k][j] == 'S':
+            return False
+
+    for k in range(j, n):
+        if board[i][k] == 'O':
+            break
+        elif board[i][k] == 'S':
+            return False
+
+    for k in range(j, -1, -1):
+        if board[i][k] == 'O':
+            break
+        elif board[i][k] == 'S':
+            return False
+    return True
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    n = int(input())
+    board = []
+    for _ in range(n):
+        board.append(input().split())
+    res = ""
+
+    make(0)
+    if res == "YES":
+        print("YES")
+    else:
+        print("NO")
