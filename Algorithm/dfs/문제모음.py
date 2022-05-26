@@ -621,3 +621,51 @@ if __name__ == "__main__":
         print("YES")
     else:
         print("NO")
+
+        
+'''
+        1926 그림
+
+'''
+
+if __name__ == "__main__":
+    n, m = map(int, input().split())
+    cnt = 0
+    board = []
+    max_cnt = 0
+    visited = [[0 for _ in range(m)] for _ in range(n)]
+
+    for _ in range(n):
+        board.append(list(map(int, input().split())))
+
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 1:
+                if visited[i][j] == 0:
+                    cnt_one = 1
+                    q = deque()
+                    q.append([i, j])
+                    visited[i][j] = 1
+                    while q:
+                        y, x = q.popleft()
+                        for k in range(4):
+                            ny = y + dy[k]
+                            nx = x + dx[k]
+                            if (0 <= ny < n) and (0 <= nx < m):
+                                if board[ny][nx] == 1:
+                                    if visited[ny][nx] == 0:
+                                        q.append([ny, nx])
+                                        visited[ny][nx] = 1
+                                        cnt_one += 1
+                    cnt += 1
+                    if max_cnt < cnt_one:
+                        max_cnt = cnt_one
+
+
+
+    print(cnt)
+    print(max_cnt)
+
