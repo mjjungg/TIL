@@ -260,3 +260,71 @@ if __name__ == "__main__":
 
     res *= dp[n-tmp]
     print(res)
+    
+    
+'''
+        11660 구간 합 구하기5
+        
+        규칙 찾는 문제!
+
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m = map(int, input().split())
+    board = []
+    dp = [[0 for _ in range(n+1)] for _ in range(n+1)]
+
+    for _ in range(n):
+        board.append(list(map(int, input().split())))
+
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            dp[i][j] = dp[i][j-1] + dp[i-1][j] - dp[i-1][j-1] + board[i-1][j-1]
+
+    for _ in range(m):
+        x1, y1, x2, y2 = map(int, input().split())
+        print(dp[x2][y2] - dp[x2][y1-1] - dp[x1-1][y2] + dp[x1-1][y1-1])
+
+        
+'''
+        9465
+        스티커
+        
+        규칙 찾기 - 현재 올 수 있는 값 중 최선의 값(최대값) 찾기
+        ※ 리스트 마이너스 인덱스를 조심하자! 
+        리스트에서 마이너스 인덱스는 에러가 나지 않고 뒤로 돌기 때문에 예외처리 해주어야 한다.
+
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        board = []
+        dp = [[0 for _ in range(n)] for _ in range(2)]
+
+        for _ in range(2):
+            board.append(list(map(int, input().split())))
+
+        dp[0][0] = board[0][0]
+        dp[1][0] = board[1][0]
+
+        for j in range(1, n):
+            if j-2 < 0:
+                dp[0][j] = board[0][j] + dp[1][j-1]
+                dp[1][j] = board[1][j] + dp[0][j - 1]
+            else:
+                dp[0][j] = max(board[0][j] + dp[1][j - 1], board[0][j] + dp[1][j - 2])
+                dp[1][j] = max(board[1][j] + dp[0][j - 1], board[1][j] + dp[0][j - 2])
+
+        res = 0
+
+        for i in dp:
+            if res < max(i):
+                res = max(i)
+        print(res)
+
