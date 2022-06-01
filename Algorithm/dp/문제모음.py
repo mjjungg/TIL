@@ -328,3 +328,40 @@ if __name__ == "__main__":
                 res = max(i)
         print(res)
 
+        
+'''
+        11049 행렬 곱셈 순서
+        
+        1. n이 4정도 됐을 때의 예를 생각해보자. 
+        dp의 점화식을 찾기 위해서 n=1일때부터 규칙을 찾아나갈 수도 있지만, 
+        n이 웬만큼 커야(3이나 4정도) 규칙을 찾기 쉬울 때도 있다.
+        
+        2. 다이아몬드 행렬 구조 파악
+        for i in range(1, n):
+            for j in range(n-i):
+                dp[j][j + i]         
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    mat_lst = []
+    dp = [[0 for _ in range(n)] for _ in range(n)]
+
+    for _ in range(n):
+        mat = list(map(int, input().split()))
+        mat_lst.append(mat)
+
+    for i in range(1, n):
+        for j in range(n-i):
+            if i == 1:
+                dp[j][j + i] = mat_lst[j][0] * mat_lst[j][1] * mat_lst[j + i][1]
+                continue
+
+            dp[j][j + i] = 2 ** 32
+            for k in range(j, j + i):
+                dp[j][j + i] = min(dp[j][j + i],
+                                   dp[j][k] + dp[k + 1][j + i] + mat_lst[j][0] * mat_lst[k][1] * mat_lst[j + i][1])
+
+    print(dp[0][n-1])
