@@ -31,3 +31,40 @@ if __name__ == "__main__":
                 if res < tmp:
                     res = tmp
     print(res)
+
+
+'''
+        2231 분해합
+'''
+def split_num(x):
+    lst = []
+
+    while x // 10 > 0:
+        lst.append(x % 10)
+        x = x // 10
+    lst.append(x)
+    return lst
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    res = []
+    ans = float('inf')
+
+    for i in range(1, n):
+        m = i
+        k = split_num(m)
+        for j in range(len(k)):
+            m += k[j]
+
+        if m == n:
+            tmp = [str(i) for i in k]
+            tmp.reverse()
+            case = int("".join(tmp))
+
+            if case < ans:
+                ans = case
+
+    if ans == float('inf'):
+        print(0)
+    else:
+        print(ans)
