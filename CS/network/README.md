@@ -5,8 +5,8 @@
 - [**GET과-POST의-비교**](#GET과-POST의-비교)
 - [**UDP란?**](#UDP란?)
 - [**TCP란?**](#TCP란?)
-- [**UDP와 TCP의 비교**](#TCP란?)
-- [**TCP의 특징**](#TCP란?)
+- [**UDP와-TCP의-비교**](#UDP와-TCP의-비교)
+- [**TCP의-특징**](#TCP의-특징)
 
 ## OSI 모델
 
