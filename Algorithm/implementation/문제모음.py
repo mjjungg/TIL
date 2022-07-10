@@ -27,3 +27,43 @@ if __name__ == "__main__":
     for i in range(1, n+1):
         if i not in self_num_lst:
             print(i)
+
+        
+'''
+        1316 그룹단어 체커
+'''
+        
+if __name__ == "__main__":
+    n = int(input())
+    res = n
+
+    for _ in range(n):
+        s = input()
+        check = []
+
+        for i in s:
+            if i not in check:
+                check.append(i)
+            else:
+                if check[-1] != i:
+                    res -= 1
+                    break
+    print(res)
+
+'''
+        2941 크로아티아 알파벳
+        
+        문자열에서 for문 돌려고만 생각함 -> 크로아티아에서 for문 돎
+        
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    s = input()
+    c = ['c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z=']
+
+    for i in c:
+        s = s.replace(i, '*')
+
+    print(len(s))
