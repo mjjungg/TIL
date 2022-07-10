@@ -1,10 +1,10 @@
 # Network
 
 - [**OSI-모델**](#OSI-모델)
-- [**HTTP란?**](#HTTP란?)
+- [**HTTP란**](#HTTP란)
 - [**GET과-POST의-비교**](#GET과-POST의-비교)
-- [**UDP란?**](#UDP란?)
-- [**TCP란?**](#TCP란?)
+- [**UDP란**](#UDP란)
+- [**TCP란**](#TCP란)
 - [**UDP와-TCP의-비교**](#UDP와-TCP의-비교)
 - [**TCP의-특징**](#TCP의-특징)
 
@@ -32,11 +32,11 @@
 
 주로 GET은 서버에서 데이터를 가져오는 용도로, POST는 서버의 값이나 상태를 변경하기 위해서 사용된다.
 
-# UDP란?
+## UDP란
 
 **UDP**(User Datagram Protocol)는 비연결형 프로토콜으로, 응답 확인과 같은 절차를 생략하여 데이터를 빠르게 전송할 수 있다.  
 
-# TCP란?
+## TCP란
 
 **TCP**(Transmission Control Protocol)는 연결지향적 프로토콜로, 데이터를 정확하고 안전하게 전달이 가능하다.
 
