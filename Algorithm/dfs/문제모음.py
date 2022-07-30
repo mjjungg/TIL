@@ -668,4 +668,132 @@ if __name__ == "__main__":
 
     print(cnt)
     print(max_cnt)
+    
+    
+import sys
+from collections import deque
+'''
+        1963 소수 경로 
+        
+        아이디어 아예 생각 안 남..
+        
+        1. 네 자리 수의 모든 소수 구함 
+        2. 첫 숫자부터 각 자리수(4자리)에 0부터 9까지 넣어보면서 소수이면서 1000이상의 숫자를 찾는다. 
+        3. 이 숫자가 타겟 넘버라면 리턴 
+        => 완전탐색 + bfs 
+        
+'''
+
+# 에라토스테네스의 체
+def findPrimeNums():
+    prime[0], prime[1] = False, False
+
+    for i in range(2, 10000):
+        if prime[i]:
+            for j in range(2*i, 10000, i):
+                prime[j] = False
+
+
+def bfs(start, target):
+    q = deque()
+    q.append([start, 0])
+
+    visited = [0 for _ in range(10000)]
+    visited[start] = 1
+
+    while q:
+        now, cnt = q.popleft()
+
+        if now == target:
+            return cnt
+
+        strNow = str(now)
+
+        # 각 자리마다 0~9 숫자 넣어가면서 소수인지 확인
+        for i in range(4):
+            for j in range(10):
+                tmp = int(strNow[:i] + str(j) + strNow[i+1:])
+
+                if visited[tmp] == 0 and prime[tmp] and 1000 <= tmp:
+                    q.append([tmp, cnt+1])
+                    visited[tmp] = 1
+
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+
+    prime = [True] * 10000
+    findPrimeNums()
+
+    for _ in range(n):
+        start, target = map(int, input().split())
+        res = bfs(start, target)
+
+        if res != None:
+            print(res)
+        else:
+            print("Impossible")
+
+            
+import sys
+from collections import deque
+'''
+        2251 물통
+        
+'''
+
+def pour(x, y):
+    if visited[x][y] == 0:
+        visited[x][y] = 1
+        q.append([x, y])
+
+def bfs():
+    while q:
+        curA, curB = q.popleft()
+        curC = c - curA - curB
+
+        if curA == 0:
+            res.append(curC)
+
+        # a -> b
+        water = min(curA, b-curB)
+        pour(curA-water, curB+water)
+
+        # a -> c
+        water = min(curA, c-curC)
+        pour(curA-water, curB)
+
+        # b -> a
+        water = min(curB, a-curA)
+        pour(curA+water, curB-water)
+
+        # b -> c
+        water = min(curB, c-curC)
+        pour(curA, curB-water)
+
+        # c -> a
+        water = min(curC, a-curA)
+        pour(curA+water, curB)
+
+        # c -> b
+        water = min(curC, b-curB)
+        pour(curA, curB+water)
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    a, b, c = map(int, input().split())
+    visited = [[0 for _ in range(b+1)] for _ in range(a+1)]
+    q = deque()
+    res = []
+
+    visited[0][0] = 1
+    q.append([0, 0])
+    bfs()
+
+    res.sort()
+
+    for i in res:
+        print(i, end=' ')
 
