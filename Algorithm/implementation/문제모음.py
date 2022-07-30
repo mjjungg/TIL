@@ -67,3 +67,47 @@ if __name__ == "__main__":
         s = s.replace(i, '*')
 
     print(len(s))
+
+import sys
+from collections import deque
+'''
+        1021 회전하는 큐
+        
+        1. 큐에서 원소 삭제할 때마다 큐의 길이 갱신해야 하는 부분 빼먹음
+        2. 문제 제대로 읽지 않아서 잘못 이해함 
+        
+        => 구현 문제는 문제 꼼꼼히 읽고 주어진 조건, 변할 때 마다 체크 사항 빠뜨리지 않기!!!!
+        
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m = map(int, input().split())
+    targets = list(map(int, input().split()))
+    res = 0
+    q = deque([i for i in range(1, n+1)])
+
+    for i in range(m):
+        target = targets[i]
+        getIdx = q.index(target)
+        m = len(q)  # 큐의 길이가 계속 줄어드니 갱신해야 함
+
+        if getIdx < m-getIdx:   # 왼쪽으로 이동
+            while True:
+                if q[0] == target:
+                    q.popleft()
+                    break
+                else:
+                    q.append(q.popleft())
+                    res += 1
+
+        else:   # 오른쪽으로 이동
+            while True:
+                if q[0] == target:
+                    q.popleft()
+                    break
+                else:
+                    q.appendleft(q.pop())
+                    res += 1
+
+    print(res)
