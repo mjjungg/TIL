@@ -876,3 +876,57 @@ if __name__ == "__main__":
                                     q.append([ny, nx])
                                     res = max(res, visited[ny][nx])
     print(res-1)
+    
+    
+import sys
+from collections import deque
+
+'''
+        1743 음식물 피하기
+        
+        전형적인 bfs 문제였으나, 인덱스의 범위 문제(for문 돌릴때 n과 m에 1씩 더해주었어야 함) 간과해서 시간 날림
+        꼼꼼하게 조건 살피는 노력 필요
+        
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, m, k = map(int, input().split())
+    board = [[0 for _ in range(m+1)] for _ in range(n+1)]
+    visited = [[0 for _ in range(m+1)] for _ in range(n+1)]
+    dy = [1, -1, 0, 0]
+    dx = [0, 0, 1, -1]
+    res = 0
+    q = deque()
+
+    for i in range(k):
+        a, b = map(int, input().split())
+        board[a][b] = 1
+
+    for i in range(n+1):
+        for j in range(m+1):
+            # 이전에 탐색 안 한 음식물 찾으면 bfs 돌려서 근처 음식물까지 찾기
+            if board[i][j] != 0 and visited[i][j] == 0:
+                q.append([i, j])
+                visited[i][j] = 1
+                tmp = board[i][j]   # 음식물의 시작 크기 -> 근처 음식물 찾으면 1씩 더한다. -> 최종: 최종 음식물의 크기
+                
+                while q:
+                    y, x = q.popleft()
+
+                    for k in range(4):
+                        ny = y + dy[k]
+                        nx = x + dx[k]
+
+                        if (0 <= ny <= n) and (0 <= nx <= m):
+                            if board[ny][nx] != 0:
+                                if visited[ny][nx] == 0:    # 근처 음식물 찾으면 음식물 크기 늘림
+                                    tmp += board[ny][nx]
+                                    q.append([ny, nx])
+                                    visited[ny][nx] = 1
+                              
+                if res < tmp:
+                   res = tmp
+
+    print(res)
