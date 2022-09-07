@@ -930,3 +930,70 @@ if __name__ == "__main__":
                    res = tmp
 
     print(res)
+    
+    
+    import sys
+from collections import deque
+
+'''
+        9205 맥주 마시면서 걸어가기
+        
+        * 맥주를 마시면서 도착지에 도달할 수 있는지 없는지만 고려하면 되므로, 
+        복잡한 내부 로직 필요 없음 
+        
+        * 큐에 넣을 때 dy, dx를 계산해서 넣는게 아니라, 단순히 편의점의 좌표 넣는 문제! 
+        
+        1. 무조건 편의점 들리는게 이득이므로, 모든 편의점 들르는데 이때 현재 위치로부터 
+        편의점까지의 거리가 무조건 1000이하여야 함. 
+        
+        2. 도중에 거리가 1000이상이면 break 
+        
+'''
+
+def distance(sy, sx, ey, ex):
+    return abs(ey-sy) + abs(ex-sx)
+
+
+def bfs():
+    q = deque()
+    q.append([y_start, x_start])
+
+    while q:
+        y, x = q.popleft()
+
+        # 현재 위치 ~ 도달 위치까지 1000이하라면 happy
+        if distance(y, x, y_end, x_end) <= 1000:
+            print("happy")
+            return
+
+        # 현재 위치부터 방문하지 않은 모든 편의점 둘러봄
+        for i in range(n):
+            if visited[i] == 0:
+                new_y, new_x = conv[i]
+
+                # 1000이하인 편의점에 위치를 큐에 넣음
+                if distance(new_y, new_x, y, x) <= 1000:
+                    q.append([new_y, new_x])
+                    visited[i] = 1
+    print("sad")
+    return
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    t = int(input())
+
+    for _ in range(t):
+        n = int(input())
+        y_start, x_start = map(int, input().split())
+        conv = []
+        for i in range(n):
+            a, b = map(int, input().split())
+            conv.append([a, b])
+
+        y_end, x_end = map(int, input().split())
+        visited = [0 for _ in range(n)]
+
+        bfs()
+
+
