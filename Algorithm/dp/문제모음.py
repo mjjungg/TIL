@@ -365,3 +365,68 @@ if __name__ == "__main__":
                                    dp[j][k] + dp[k + 1][j + i] + mat_lst[j][0] * mat_lst[k][1] * mat_lst[j + i][1])
 
     print(dp[0][n-1])
+    
+    
+'''
+    12863 평범한 배낭 
+    
+    첫 번째 풀이: 시간 초과
+
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, k = map(int, input().split())
+    dp = [0 for _ in range(k + 1)]
+    for _ in range(n):
+        w, v = map(int, input().split())
+        dp[w] = v
+
+    for i in range(2, k + 1):
+        for j in range(i):
+            dp[i] = max(dp[j] + dp[i - j], dp[i])
+
+    print(max(dp))
+    
+    
+'''
+    12863 평범한 배낭 
+    
+    두 번째 풀이: 냅색 알고리즘 
+    주어진 물건의 용량과 가치를 고려해서 담을지 말지 결정하는 문제 
+    
+    배낭의 용량 7 이라고 했을 때, 
+    1. (무게: 6, 가치: 13)인 첫 번째 물건을 담았다
+    2. (무게: 4, 가치 8)인 두 번째 물건을 담을 수 없다. 
+    -> 첫 번째 담았던 물건을 버리던가, 두 번째 물건을 담지 않던가 선택해야 함! 
+    
+    dp[n][k]: n 번째 물건까지 살펴보았을 때 무게가 k인 배낭의 최대 가치 
+    (y축: [무게, 가치]에 해당 하는 물건, x축: 가방의 무게(0~K))
+    
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n, k = map(int, input().split())
+    dp = [[0 for _ in range(k + 1)] for _ in range(n + 1)]
+    lst = [[0, 0]]
+
+    for i in range(n):
+        w, v = map(int, input().split())
+        lst.append([w, v])
+
+    for i in range(n+1):
+        for j in range(k+1):
+            w = lst[i][0]
+            v = lst[i][1]
+            # 현재 배낭의 허용 무게보다 넣을 물건의 무게가 크다면 넣지 않는다.
+            if j < w:
+                dp[i][j] = dp[i-1][j]
+
+            # 현재 물건을 넣는다. vs 현재 물건을 넣지 않는다.
+            else:
+                dp[i][j] = max(dp[i-1][j-w] + v, dp[i-1][j])
+
+    print(dp[n][k])
