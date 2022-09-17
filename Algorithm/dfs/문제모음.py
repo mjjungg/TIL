@@ -997,3 +997,42 @@ if __name__ == "__main__":
         bfs()
 
 
+import sys
+from collections import deque
+
+'''
+    14226 이모티콘 
+
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    s = int(input())
+    q = deque()
+    visited = [[-1 for _ in range(s+1)] for _ in range(s+1)]
+
+    q.append([1, 0])    # 화면의 이모티콘 개수, 클립보드의 이모티콘 개수
+    visited[1][0] = 0
+
+    while q:
+        screen, clip = q.popleft()
+
+        if screen == s:
+            print(visited[screen][clip])
+            break
+
+        # 1. 복사해서 클립보드에 저장
+        if visited[screen][screen] == -1:
+            visited[screen][screen] = visited[screen][clip] + 1
+            q.append([screen, screen])
+
+        # 2. 클립보드의 이모티콘 화면에 붙여넣기
+        if screen + clip <= s and visited[screen + clip][clip] == -1:
+            visited[screen + clip][clip] = visited[screen][clip] + 1
+            q.append([screen + clip, clip])
+
+        # 3. 화면의 이모티콘 삭제
+        if 0 <= screen - 1 and visited[screen - 1][clip] == -1:
+            visited[screen - 1][clip] = visited[screen][clip] + 1
+            q.append([screen-1, clip])
