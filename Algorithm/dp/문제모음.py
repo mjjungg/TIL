@@ -454,3 +454,38 @@ if __name__ == "__main__":
                 dp[i] = dp[i - j ** 2] + 1
 
     print(dp[n])
+    
+'''
+    2096 내려가기
+    
+    ** list1 = list2 해버리면, list1의 값이 list2로 복사될 뿐만 아니라, 참조값이 같아지기 때문에,
+       list2가 변하면 list1도 변하게 되버린다!!!!
+    
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    board = []
+    dp_max = [0] * 3
+    dp_min = [0] * 3
+
+    tmp_max = [0] * 3
+    tmp_min = [0] * 3
+
+    for i in range(n):
+        a, b, c = map(int, input().split())
+        tmp_max[0] = max(dp_max[0], dp_max[1]) + a
+        tmp_max[1] = max(dp_max[1], dp_max[0], dp_max[2]) + b
+        tmp_max[2] = max(dp_max[2], dp_max[1]) + c
+
+        tmp_min[0] = min(dp_min[0], dp_min[1]) + a
+        tmp_min[1] = min(dp_min[1], dp_min[0], dp_min[2]) + b
+        tmp_min[2] = min(dp_min[2], dp_min[1]) + c
+
+        for j in range(3):
+            dp_max[j] = tmp_max[j]
+            dp_min[j] = tmp_min[j]
+
+    print(max(dp_max), min(dp_min))
