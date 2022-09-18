@@ -430,3 +430,27 @@ if __name__ == "__main__":
                 dp[i][j] = max(dp[i-1][j-w] + v, dp[i-1][j])
 
     print(dp[n][k])
+
+    
+'''
+    1699 제곱수의 합 
+    (pypy 제출)
+    시간초과 해결 도움: min -> if문 
+    
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    dp = [i for i in range(n+1)]
+
+    for i in range(1, n+1):
+        for j in range(1, i):
+            if i < j ** 2:
+                break
+
+            if dp[i - j ** 2] + 1 < dp[i]:
+                dp[i] = dp[i - j ** 2] + 1
+
+    print(dp[n])
