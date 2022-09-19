@@ -505,7 +505,6 @@ from collections import deque
 if __name__ == "__main__":
     sys.stdin = open("input.txt", "rt")
     n = int(input())
-    res = 0
     board = []
     dp = [[0 for _ in range(n)] for _ in range(n)]
     dp[0][0] = 1
@@ -515,14 +514,14 @@ if __name__ == "__main__":
 
     for i in range(n):
         for j in range(n):
-            if board[i][j] == 0:
+            if i == n-1 and j == n-1:
                 print(dp[i][j])
                 break
 
             # 오른쪽 이동
-            if 0 <= j + board[i][j] < n:
+            if j + board[i][j] < n:
                 dp[i][j+board[i][j]] += dp[i][j]
 
             # 아래쪽 이동
-            if 0 <= i + board[i][j] < n:
+            if i + board[i][j] < n:
                 dp[i+board[i][j]][j] += dp[i][j]
