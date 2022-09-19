@@ -489,3 +489,40 @@ if __name__ == "__main__":
             dp_min[j] = tmp_min[j]
 
     print(max(dp_max), min(dp_min))
+
+import sys
+from collections import deque
+
+'''
+    1890 점프 
+    
+    * bfs로 풀었다가 메모리 초과 문제로 dp로 풂!
+    dp[i][j]: 현재 칸에 도달할 수 있는 경로의 개수
+    
+'''
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    res = 0
+    board = []
+    dp = [[0 for _ in range(n)] for _ in range(n)]
+    dp[0][0] = 1
+
+    for i in range(n):
+        board.append(list(map(int, input().split())))
+
+    for i in range(n):
+        for j in range(n):
+            if board[i][j] == 0:
+                print(dp[i][j])
+                break
+
+            # 오른쪽 이동
+            if 0 <= j + board[i][j] < n:
+                dp[i][j+board[i][j]] += dp[i][j]
+
+            # 아래쪽 이동
+            if 0 <= i + board[i][j] < n:
+                dp[i+board[i][j]][j] += dp[i][j]
