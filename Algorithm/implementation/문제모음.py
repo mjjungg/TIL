@@ -111,3 +111,81 @@ if __name__ == "__main__":
                     res += 1
 
     print(res)
+
+
+import sys
+from collections import deque
+
+'''
+    3190 뱀 
+    
+'''
+
+def move(ny, nx, d):
+    global head_y, head_x
+
+    if board[ny][nx] == 0:
+        ty, tx = snake.popleft()
+        board[ty][tx] = 0
+
+        board[ny][nx] = 1
+        head_y = ny
+        head_x = nx
+        snake.append([head_y, head_x])
+
+    elif board[ny][nx] == 5:
+        board[ny][nx] = 1
+        head_y = ny
+        head_x = nx
+        snake.append([head_y, head_x])
+    else:
+        return 
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    k = int(input())
+    snake = deque()
+    board =[[0 for _ in range(n+2)] for _ in range(n+2)]
+
+    # 오, 아, 왼, 위
+    dy = [0, 1, 0, -1]
+    dx = [1, 0, -1, 0]
+
+    for i in range(n+1):
+        board[0][i] = -1
+        board[n+1][i] = -1
+        board[i][0] = -1
+        board[i][n+1] = -1
+
+    for _ in range(k):
+        l, c = map(int, input().split())
+        board[l][c] = 5
+
+    board[1][1] = 1
+    now_dir = 0
+    snake.append([1, 1])
+
+    l = int(input())
+    now = 0
+    head_y = 1
+    head_x = 1
+    lst = {}
+    for _ in range(l):
+        t, d = input().split()
+        lst[int(t)] = d
+
+    while True:
+        now += 1
+        ny = head_y + dy[now_dir]
+        nx = head_x + dx[now_dir]
+        if board[ny][nx] == -1 or board[ny][nx] == 1:
+            print(now)
+            break
+        move(ny, nx, now_dir)
+
+        if now in lst:
+            if lst[now] == 'D':
+                now_dir = (now_dir + 1) % 4
+            else:
+                now_dir = (now_dir - 1) % 4
