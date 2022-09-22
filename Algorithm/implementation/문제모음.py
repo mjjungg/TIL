@@ -189,3 +189,127 @@ if __name__ == "__main__":
                 now_dir = (now_dir + 1) % 4
             else:
                 now_dir = (now_dir - 1) % 4
+
+                
+'''
+    16236 아기 상어 
+    
+    최단거리: bfs로 풀기 
+    
+'''
+
+# 1. 현재 위치로부터 모든 보드의 위치까지의 최단 거리 구하기
+# 2. 최단 거리 구한 위치에 있는 물고기 중 잡아먹을 수 있는 것 eat 리스트에 담기
+def bfs(cy, cx, size):
+    dy = [0, 0, 1, -1]
+    dx = [1, -1, 0, 0]
+    dis = [[-1 for _ in range(n)] for _ in range(n)]
+    eat = []
+    dis[cy][cx] = 0
+    q = deque()
+    q.append([cy, cx])
+    while q:
+        y, x = q.popleft()
+
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+
+            if (0 <= ny < n) and (0 <= nx < n):
+                if dis[ny][nx] == -1:   # 방문하지 않았고
+                    if board[ny][nx] <= size:   # 해당 위치로 이동 가능한 경우
+                        q.append([ny, nx])
+                        dis[ny][nx] = dis[y][x] + 1
+
+                        if 0 < board[ny][nx] < size:
+                            eat.append([ny, nx, dis[ny][nx]])
+
+    return sorted(eat, key=lambda x:(x[2], x[0], x[1]))
+
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    n = int(input())
+    board = []
+    ny, nx = 0, 0
+    size = 2
+    time = 0
+    eating = 0
+
+    for _ in range(n):
+        board.append(list(map(int, input().split())))
+
+    for i in range(n):
+        for j in range(n):
+            if board[i][j] == 9:
+                ny, nx = i, j
+
+    while True:
+        fish = bfs(ny, nx, size)
+        if len(fish) == 0:
+            break
+
+        y, x, dis = fish.pop(0)
+        board[ny][nx] = 0
+        board[y][x] = 0
+        ny, nx = y, x
+
+        time += dis
+        eating += 1
+
+        if eating == size:
+            size += 1
+            eating = 0
+
+    print(time)
+
+
+'''
+    14500 테트로미노 
+    1. 나의 풀이: 테트로미노의 위치 고정해서 완전탐색하는 방식 -> 파이썬 시간초과로 pypy 제출 
+    
+'''
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+
+    figure = [ [[0, 0], [0, 1], [0, 2], [0, 3]],
+               [[0, 0], [1, 0], [2, 0], [3, 0]],
+               [[0, 0], [0, 1], [1, 0], [1, 1]],
+               [[0, 0], [1, 0], [2, 0], [2, 1]],
+               [[0, 0], [1, 0], [0, 1], [0, 2]],
+               [[0, 0], [0, 1], [1, 1], [2, 1]],
+               [[1, 0], [1, 1], [1, 2], [0, 2]],
+               [[2, 0], [0, 1], [1, 1], [2, 1]],
+               [[0, 0], [1, 0], [1, 1], [1, 2]],
+               [[0, 0], [1, 0], [2, 0], [0, 1]],
+               [[0, 0], [0, 1], [0, 2], [1, 2]],
+               [[0, 0], [1, 0], [1, 1], [2, 1]],
+               [[0, 0], [0, 1], [1, 1], [1, 2]],
+               [[1, 0], [0, 1], [1, 1], [0, 2]],
+               [[1, 0], [2, 0], [0, 1], [1, 1]],
+               [[0, 0], [0, 1], [1, 1], [0, 2]],
+               [[1, 0], [0, 1], [1, 1], [2, 1]],
+               [[1, 0], [0, 1], [1, 1], [1, 2]],
+               [[0, 0], [1, 0], [2, 0], [1, 1]]
+               ]
+
+    n, m = map(int, input().split())
+    board = []
+    res = 0
+    for _ in range(n):
+        board.append(list(map(int, input().split())))
+
+    for i in range(n):
+        for j in range(m):
+            for k in range(len(figure)):
+                val = 0
+                for h in range(len(figure[k])):
+                    if (0 <= i + figure[k][h][0] < n) and (0 <= j + figure[k][h][1] < m):
+                        val += board[i + figure[k][h][0]][j + figure[k][h][1]]
+                    else:
+                        break
+                    if res < val:
+                        res = val
+
+    print(res)
