@@ -525,3 +525,25 @@ if __name__ == "__main__":
             # 아래쪽 이동
             if i + board[i][j] < n:
                 dp[i+board[i][j]][j] += dp[i][j]
+'''
+    2502 떡먹는 호랑이 
+'''
+import sys
+
+if __name__ == "__main__":
+    sys.stdin = open("input.txt", "rt")
+    d, k = map(int, input().split())
+    dp = [1, 1]
+
+    for _ in range(d-3):
+        dp.append(dp[-1] + dp[-2])
+
+    a_d, b_d = dp[d-3], dp[d-2]
+
+    for a in range(1, k // a_d + 1):
+        rest = k - (a_d * a)
+        if rest % b_d == 0:
+            b = rest // b_d
+            print(a)
+            print(b)
+            break
